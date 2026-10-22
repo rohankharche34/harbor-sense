@@ -98,7 +98,6 @@ def generate_markdown_report(
 
     md_content = f"""# HarborSense AI: Technical Evaluation & System Report
 **Port Congestion and Shipment Delay Prediction System**  
-*Author: HarborSense AI Engineering Team*  
 *Date: {datetime.now().strftime('%B %d, %Y')}*  
 *Evaluation Mode: Held-Out Chronological Test Partition (Offline Verification)*
 
@@ -415,7 +414,6 @@ def generate_pdf_report(
     story.append(Paragraph("Port Congestion and Shipment Delay Prediction System", subtitle_style))
     story.append(
         Paragraph(
-            f"<b>Author:</b> HarborSense AI ML Engineering Team &nbsp;|&nbsp; "
             f"<b>Date:</b> {datetime.now().strftime('%B %d, %Y')} &nbsp;|&nbsp; "
             f"<b>Evaluation:</b> Held-Out Chronological Test Partition (Zero Target Leakage)",
             meta_style,

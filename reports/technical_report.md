@@ -1,6 +1,5 @@
 # HarborSense AI: Technical Evaluation & System Report
 **Port Congestion and Shipment Delay Prediction System**  
-*Author: HarborSense AI Engineering Team*  
 *Date: October 22, 2026*  
 *Evaluation Mode: Held-Out Chronological Test Partition (Offline Verification)*
 
