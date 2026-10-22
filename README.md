@@ -295,12 +295,6 @@ The system maps predictions into clear, prioritized decision-support playbooks:
 
 ---
 
-## 12. 5-Minute Evaluation Demo Walkthrough
-
-A structured 5-minute walkthrough script with talking points, preset scenarios, and dashboard evaluation steps is provided in [DEMO.md](DEMO.md).
-
----
-
-## 13. License
+## 12. License
 This project is licensed under the MIT License - see the `LICENSE` file for details.
 
