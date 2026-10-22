@@ -1,0 +1,24 @@
+{
+  "feature_means": {
+    "expected_arrivals_24h": 36.95619047619048,
+    "berth_capacity": 27.6,
+    "current_utilization": 0.8831257142857142,
+    "current_queue_length": 5.3219047619047615,
+    "recent_arrivals_6h": 9.348571428571429,
+    "weather_severity": 0.2831352380952381,
+    "historical_delay_rate": 0.31523238095238093,
+    "hour": 10.0,
+    "day_of_week": 3.0
+  },
+  "feature_stds": {
+    "expected_arrivals_24h": 16.78615528660196,
+    "berth_capacity": 10.076542146023657,
+    "current_utilization": 0.16803768304315328,
+    "current_queue_length": 8.886381446089912,
+    "recent_arrivals_6h": 5.106905067465585,
+    "weather_severity": 0.16881287070516926,
+    "historical_delay_rate": 0.2926352429455016,
+    "hour": 6.834555836300138,
+    "day_of_week": 2.0009530617648386
+  }
+}

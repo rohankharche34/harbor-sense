@@ -1,0 +1,104 @@
+{
+  "dataset_summary": {
+    "test_sample_count": 175,
+    "positive_congested_count": 22,
+    "negative_normal_count": 153,
+    "test_congestion_rate": 0.1257
+  },
+  "selected_model": {
+    "model_name": "Calibrated Random Forest (Sigmoid)",
+    "accuracy": 0.88,
+    "precision": 0.5455,
+    "recall": 0.2727,
+    "f1_score": 0.3636,
+    "roc_auc": 0.874,
+    "pr_auc": 0.4342,
+    "brier_score": 0.0895,
+    "expected_calibration_error": 0.0586,
+    "confusion_matrix": {
+      "true_negatives": 148,
+      "false_positives": 5,
+      "false_negatives": 16,
+      "true_positives": 6
+    }
+  },
+  "model_comparisons": {
+    "majority_class_baseline": {
+      "strategy": "Always predict 0",
+      "accuracy": 0.8743,
+      "f1_score": 0.0
+    },
+    "domain_heuristic_baseline": {
+      "strategy": "Congestion if queue >= 5 or util >= 0.85 or weather >= 0.70",
+      "accuracy": 0.8057,
+      "precision": 0.3235,
+      "recall": 0.5,
+      "f1_score": 0.3929
+    },
+    "logistic_regression_baseline": {
+      "accuracy": 0.8686,
+      "precision": 0.4762,
+      "recall": 0.4545,
+      "f1_score": 0.4651,
+      "roc_auc": 0.8972,
+      "brier_score": 0.0825
+    },
+    "random_forest_uncalibrated": {
+      "brier_score": 0.0816,
+      "expected_calibration_error": 0.0519
+    },
+    "random_forest_calibrated": {
+      "brier_score": 0.0895,
+      "expected_calibration_error": 0.0586
+    }
+  },
+  "secondary_regression_task": {
+    "target": "future_median_wait_hours",
+    "model": "RandomForestRegressor(n_estimators=100)",
+    "mae_hours": 0.726,
+    "rmse_hours": 0.913,
+    "r2_score": 0.5397
+  },
+  "top_features_by_permutation_importance": [
+    [
+      "arrival_to_berth_ratio",
+      0.04738562091503273
+    ],
+    [
+      "weather_utilization_interaction",
+      0.029797979797979844
+    ],
+    [
+      "weather_severity",
+      0.016844919786096358
+    ],
+    [
+      "current_utilization",
+      0.014705882352941235
+    ],
+    [
+      "port_id_PORT_LOS_ANGELES",
+      0.004931669637552039
+    ],
+    [
+      "port_id_PORT_SINGAPORE",
+      0.003416518122400569
+    ],
+    [
+      "berth_capacity",
+      0.0020499108734403195
+    ],
+    [
+      "historical_delay_rate",
+      -2.970885323817507e-05
+    ],
+    [
+      "cos_day",
+      -0.0005941770647652
+    ],
+    [
+      "day_of_week",
+      -0.0006238859180034972
+    ]
+  ]
+}
