@@ -20,7 +20,7 @@ class ProjectConfig:
     reports_dir: Path = BASE_DIR / "reports"
     figures_dir: Path = BASE_DIR / "reports" / "figures"
     metrics_file: Path = BASE_DIR / "reports" / "metrics.json"
-    report_pdf: Path = BASE_DIR / "reports" / "technical_report.pdf"
+    report_pdf: Path = BASE_DIR / "reports" / "harborsense_technical_report.pdf"
     report_md: Path = BASE_DIR / "reports" / "technical_report.md"
 
     # Prediction problem definition

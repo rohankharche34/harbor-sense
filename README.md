@@ -129,8 +129,9 @@ harborsense-ai/
 ├── scripts/
 │   └── run_pipeline.py            # Master end-to-end execution script
 └── reports/
-    ├── technical_report.md        # Comprehensive technical report
-    ├── technical_report.pdf       # 2-3 page ReportLab PDF deliverable
+    ├── technical_report.md        # Comprehensive technical report in Markdown
+    ├── harborsense_technical_report.pdf # Polished 2-3 page PDF technical report
+    ├── technical_report.pdf       # Mirrored copy of PDF technical report
     ├── metrics.json               # Actual held-out test evaluation metrics
     └── figures/                   # Diagnostic & EDA visualizations
 ```
@@ -183,7 +184,17 @@ make pipeline
 1. **Data Generation & EDA:** Generates 1,500 rows across 5 ports and saves `data/port_congestion.csv`. Produces EDA figures in `reports/figures/`.
 2. **Model Training:** Splits data chronologically (70/15/15) with a 24-hour purge gap. Trains Logistic Regression baseline, Random Forest primary classifier, fits Sigmoid calibration on validation data, trains secondary wait-time regressor, and fits Conformal Calibrator.
 3. **Evaluation:** Evaluates all models on held-out test data. Generates confusion matrix, ROC/PR curves, and calibration curves. Writes `reports/metrics.json`.
-4. **Deliverables:** Compiles `reports/technical_report.md` and the 2-3 page `reports/technical_report.pdf`.
+4. **Deliverables:** Compiles `reports/technical_report.md` and the polished 2-3 page PDF report at `reports/harborsense_technical_report.pdf` (mirrored to `reports/technical_report.pdf`).
+
+### 6.1 Compiling the Technical Report
+To compile or regenerate the PDF technical report directly:
+```bash
+source .venv/bin/activate
+python -m harborsense.report_generator
+# Or: make report
+```
+- **Output Report:** `reports/harborsense_technical_report.pdf` (2–3 page PDF document)
+- **Output Summary:** `reports/technical_report.md` (Markdown version)
 
 ---
 
@@ -259,20 +270,24 @@ The test suite covers:
 
 ## 9. Evaluation Results (Held-Out Test Partition)
 
-*Evaluated on 225 held-out test observations with zero lookahead leakage:*
+*Evaluated on 175 strictly chronological held-out test observations with a 24-hour purge gap:*
 
-| Model / Heuristic | Accuracy | Precision | Recall | F1-Score | ROC-AUC | Brier Loss |
+| Model / Strategy | Accuracy | Precision | Recall | F1-Score | ROC-AUC | Brier Loss |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Majority Class Baseline** | ~68.0% | — | 0.0% | 0.000 | 0.500 | — |
-| **Operational Heuristic** | ~73.3% | ~61.5% | ~66.7% | ~0.640 | — | — |
-| **Baseline Logistic Regression** | ~82.7% | ~73.8% | ~81.9% | ~0.776 | ~0.892 | 0.128 |
-| **Calibrated Random Forest (Selected)** | **~88.4%** | **~82.1%** | **~87.5%** | **~0.847** | **~0.941** | **0.086** |
+| **Majority Class Baseline** | 87.4% | — | 0.0% | 0.000 | 0.500 | — |
+| **Operational Heuristic** | 80.6% | 32.4% | 50.0% | 0.393 | — | — |
+| **Baseline Logistic Regression** | 86.9% | 47.6% | 45.5% | 0.465 | 0.897 | 0.0825 |
+| **Calibrated Random Forest (Selected)** | **88.0%** | **54.5%** | **27.3%** | **0.364** | **0.874** | **0.0895** |
+
+- **Held-Out Test Confusion Matrix:** True Negatives = 148 | False Positives = 5 | False Negatives = 16 | True Positives = 6
+- **Calibration Assessment:** Expected Calibration Error (ECE) = 0.0586 | Brier Score = 0.0895 (Sigmoid calibrated)
+- **Precision-Recall Performance:** PR-AUC = 0.434 (a 3.4x lift over the 12.6% test event prevalence)
 
 ### Secondary Regression Task: Waiting Time
-- **Model:** `RandomForestRegressor`
-- **Mean Absolute Error (MAE):** `~1.38 hours`
-- **Root Mean Squared Error (RMSE):** `~1.85 hours`
-- **R² Variance Explained:** `~0.84`
+- **Model:** `RandomForestRegressor(n_estimators=100)`
+- **Mean Absolute Error (MAE):** `0.73 hours` (~44 minutes)
+- **Root Mean Squared Error (RMSE):** `0.91 hours`
+- **R² Variance Explained:** `0.540`
 
 ---
 
