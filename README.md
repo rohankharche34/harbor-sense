@@ -198,47 +198,28 @@ python -m harborsense.report_generator
 
 ---
 
-## 7. Running the Applications
+## 7. Running the Application (Streamlit Dashboard)
 
-### 7.1 FastAPI Prediction Backend
-Launch the high-performance prediction API:
-
-```bash
-source .venv/bin/activate
-uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
-# Or: make api
-```
-
-- **Interactive OpenAPI Documentation:** [http://localhost:8000/docs](http://localhost:8000/docs)
-- **Alternative Redoc Documentation:** [http://localhost:8000/redoc](http://localhost:8000/redoc)
-
-#### Example API Request (cURL)
-```bash
-curl -X POST "http://localhost:8000/predict" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "port_id": "PORT_ROTTERDAM",
-       "expected_arrivals_24h": 42.0,
-       "berth_capacity": 26.0,
-       "current_utilization": 0.88,
-       "current_queue_length": 8.0,
-       "recent_arrivals_6h": 12.0,
-       "weather_severity": 0.65,
-       "historical_delay_rate": 0.35,
-       "hour": 14.0,
-       "day_of_week": 2.0
-     }'
-```
-
-### 7.2 Streamlit Logistics Analyst Dashboard
-Launch the visual web dashboard:
+Launch the interactive web dashboard:
 
 ```bash
 source .venv/bin/activate
 streamlit run dashboard/app.py --server.port 8501
-# Or: make dashboard
+# Or via Makefile:
+make dashboard
 ```
+
 Open [http://localhost:8501](http://localhost:8501) in your browser.
+
+### Interactive Dashboard Features
+The Streamlit dashboard serves as the central operational interface for port dispatchers and logistics analysts:
+
+1. **Overview & Architecture:** Visualizes the 24-hour queuing problem formulation, target definitions, and system flow.
+2. **Model Evaluation & Diagnostics:** Displays held-out test benchmarks, baseline comparisons, confusion matrix error implications, ROC/PR curves, probability calibration curves, and global permutation feature importance.
+3. **Live Interactive Prediction:** Allows testing custom port conditions across 5 simulated facilities with instant calibrated probability, risk classification, 90% conformal prediction sets, continuous wait-time regression estimates, and local TreeSHAP risk-driver waterfalls.
+4. **Operational Action Playbook:** Translates active predictions into conditional dispatch protocols across virtual queuing, bottleneck berth reallocation, storm tie-downs, and human escalation.
+5. **Limitations & Real-World Roadmap:** Transparently outlines synthetic simulation assumptions and commercial production requirements (AIS, TOS, pilot logs).
+6. **Technical Report PDF Compilation:** Built-in sidebar controls to compile and download the official 2–3 page PDF report directly from the interface.
 
 ---
 
@@ -316,7 +297,7 @@ The system maps predictions into clear, prioritized decision-support playbooks:
 
 ## 12. 5-Minute Evaluation Demo Walkthrough
 
-A structured 5-minute walkthrough script with talking points, preset scenarios, and reproducible API commands is provided in [DEMO.md](DEMO.md).
+A structured 5-minute walkthrough script with talking points, preset scenarios, and dashboard evaluation steps is provided in [DEMO.md](DEMO.md).
 
 ---
 
