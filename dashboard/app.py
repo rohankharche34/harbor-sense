@@ -40,6 +40,53 @@ def load_cached_metrics(cfg: ProjectConfig = config) -> Dict[str, Any]:
     return {}
 
 
+def safe_render_table(df: pd.DataFrame) -> None:
+    """Render a DataFrame using Streamlit dataframe if pyarrow works, else styled HTML table."""
+    try:
+        st.dataframe(df, use_container_width=True)
+    except Exception:
+        # Resilient fallback: render responsive HTML table without pyarrow dependency
+        html_table = df.to_html(index=False, classes="harbor-table")
+        custom_css = """
+        <style>
+            .harbor-table-container {
+                overflow-x: auto;
+                width: 100%;
+                border-radius: 6px;
+                border: 1px solid #CBD5E0;
+                margin-top: 8px;
+                margin-bottom: 16px;
+            }
+            table.harbor-table {
+                width: 100%;
+                border-collapse: collapse;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                font-size: 0.88rem;
+            }
+            table.harbor-table th {
+                background-color: #1A365D;
+                color: #FFFFFF;
+                text-align: left;
+                padding: 10px 14px;
+                font-weight: 600;
+                border-bottom: 2px solid #CBD5E0;
+            }
+            table.harbor-table td {
+                padding: 9px 14px;
+                border-bottom: 1px solid #E2E8F0;
+                color: #2D3748;
+            }
+            table.harbor-table tr:nth-child(even) {
+                background-color: #F7FAFC;
+            }
+            table.harbor-table tr:hover {
+                background-color: #EDF2F7;
+            }
+        </style>
+        """
+        st.markdown(f"{custom_css}<div class='harbor-table-container'>{html_table}</div>", unsafe_allow_html=True)
+
+
 def main() -> None:
     # Sidebar
     st.sidebar.image(
@@ -67,6 +114,31 @@ def main() -> None:
             "Limitations & Real-World Roadmap",
         ],
     )
+
+    st.sidebar.markdown("---")
+    st.sidebar.subheader("📄 Technical Report PDF")
+    report_target = config.report_pdf
+    if st.sidebar.button("⚙️ Compile Report PDF", use_container_width=True):
+        try:
+            from harborsense.report_generator import generate_pdf_report
+            out_p = generate_pdf_report(config)
+            st.sidebar.success(f"Report updated ({out_p.name})")
+        except Exception as e:
+            st.sidebar.error(f"Compilation error: {e}")
+
+    if report_target.exists():
+        try:
+            with open(report_target, "rb") as f:
+                pdf_bytes = f.read()
+            st.sidebar.download_button(
+                label="📥 Download Report PDF",
+                data=pdf_bytes,
+                file_name="harborsense_technical_report.pdf",
+                mime="application/pdf",
+                use_container_width=True,
+            )
+        except Exception:
+            pass
 
     metrics = load_cached_metrics()
 
@@ -250,7 +322,7 @@ def main() -> None:
                 "Operational Strategy / Description": "Primary RF + Sigmoid calibration on held-out validation split.",
             },
         ]
-        st.dataframe(pd.DataFrame(benchmark_table), use_container_width=True)
+        safe_render_table(pd.DataFrame(benchmark_table))
 
         st.markdown("---")
 
@@ -357,7 +429,7 @@ def main() -> None:
                         for i, item in enumerate(perm_list[:7])
                     ]
                 )
-                st.dataframe(perm_df, use_container_width=True)
+                safe_render_table(perm_df)
 
         st.markdown("---")
 
