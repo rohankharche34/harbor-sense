@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "harborsense"
+version = "0.1.0"
+description = "Port Congestion and Shipment Delay Prediction System"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "HarborSense AI Engineering Team" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --cov=src/harborsense --cov-report=term-missing"
+testpaths = [
+    "tests",
+]
+pythonpath = [
+    "src",
+    "."
+]
+
